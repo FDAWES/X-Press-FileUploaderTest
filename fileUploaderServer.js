@@ -45,7 +45,7 @@ function copyFile(file, res){
     console.log('File read!');
 
     var lastIndex = oldpath.lastIndexOf("/");
-    var newPath = `/app/uploads/${oldpath.substring(lastIndex + 1)}`;
+    var newPath = path.join(__dirname, `uploads/${oldpath.substring(lastIndex + 1)}`;
     // Write the file
     fs.writeFile(newPath, data, function (err) {
         if (err) throw err;
