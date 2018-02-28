@@ -8,7 +8,7 @@ const multiparty = require("connect-multiparty"); /*MUST INSTALL THIS ADDITIONAL
 const morgan = require("morgan");
 
 const app = express();
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 
 app.use(morgan("tiny"));
 app.use("/upload/image", multiparty());
@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
 uploader.use(
   new uploader.LocalStrategy({
     uploadPath: "/uploads",
-    baseUrl: "http://127.0.0.1:8000/uploads/"
+    baseUrl: `http://127.0.0.1:${PORT}/uploads/`
   })
 );
 
