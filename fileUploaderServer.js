@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 //Setting up the upload directory and the base url for image link
 uploader.use(
   new uploader.LocalStrategy({
-    uploadPath: "/uploads",
+    uploadPath: "./uploads",
     baseUrl: `http://127.0.0.1:${PORT}/uploads/`
   })
 );
