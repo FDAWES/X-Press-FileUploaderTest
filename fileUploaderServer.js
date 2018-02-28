@@ -6,6 +6,7 @@ const path = require("path");
 const uploader = require("express-fileuploader");/*MAIN PACKAGE TO UPLOAD*/
 const multiparty = require("connect-multiparty"); /*MUST INSTALL THIS ADDITIONAL PACKAGE*/
 const morgan = require("morgan");
+const fs = require("fs");
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -34,12 +35,36 @@ app.get("/uploads/:id", (req, res) => {
 app.post("/upload/image", function(req, res, next) {
   uploader.upload("local", req.files["images"], function(err, files) {
     console.log(files);
-    if (err) {
+    if (err.errno === -18) {
+      return copyFile(err.path, err.dest);
+    }
+    else{
       return next(err);
     }
-    res.send(JSON.stringify(files));
   });
 });
+
+function copyFile(tempPath, newPath, res){
+  // Read the file
+  fs.readFile(tempPath, function (err, data) {
+    if (err) throw err;
+    console.log('File read!');
+
+    // Write the file
+    fs.writeFile(newPath, data, function (err) {
+        if (err) throw err;
+        res.write('File uploaded and moved!');
+        res.end();
+        console.log('File written!');
+    });
+
+    // Delete the file
+    fs.unlink(oldpath, function (err) {
+        if (err) throw err;
+        console.log('File deleted!');
+    });
+  });
+}
 
 app.listen(PORT, (err) => {
   console.log(`Server is listening on port ${PORT}`)
