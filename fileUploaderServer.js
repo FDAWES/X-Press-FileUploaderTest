@@ -33,24 +33,19 @@ app.get("/uploads/:id", (req, res) => {
 
 //Route to upload the image
 app.post("/upload/image", function(req, res, next) {
-  console.log("FILE:" + req.files["images"]);
-  uploader.upload("local", req.files["images"], function(err, files) {
-    if (files[0].error) {
-      console.log("ERROR", err)
-      return copyFile(files[0].error.path, files[0].error.dest, res);
-    }
-    else if(err){
-      return next(err);
-    }
-  });
+  console.log("FILE:", req.files["images"]);
+  copyFile(req.files["images"], res)
 });
 
-function copyFile(tempPath, newPath, res){
+function copyFile(file, res){
   // Read the file
-  fs.readFile(tempPath, function (err, data) {
+  var oldpath = file.path;
+  fs.readFile(oldpath, function (err, data) {
     if (err) throw err;
     console.log('File read!');
 
+    var lastIndex = oldpath.lastIndexOf("/");
+    var newPath = `./uploads/${oldpath.substring(lastIndex + 1)}`;
     // Write the file
     fs.writeFile(newPath, data, function (err) {
         if (err) throw err;
