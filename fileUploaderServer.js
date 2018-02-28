@@ -33,7 +33,7 @@ app.get("/uploads/:id", (req, res) => {
 
 //Route to upload the image
 app.post("/upload/image", function(req, res, next) {
-  console.log("FILE:" + req.files["images"];)
+  console.log("FILE:" + req.files["images"]);
   uploader.upload("local", req.files["images"], function(err, files) {
     if (files[0].error) {
       console.log("ERROR", err)
