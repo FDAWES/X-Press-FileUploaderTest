@@ -34,12 +34,11 @@ app.get("/uploads/:id", (req, res) => {
 //Route to upload the image
 app.post("/upload/image", function(req, res, next) {
   uploader.upload("local", req.files["images"], function(err, files) {
-    console.log(files);
-    if (err) {
+    if (files[0].error) {
       console.log("ERROR", err)
       return copyFile(files[0].error.path, files[0].error.dest, res);
     }
-    else{
+    else if(err){
       return next(err);
     }
   });
