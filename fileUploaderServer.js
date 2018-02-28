@@ -56,15 +56,19 @@ function copyFile(tempPath, newPath, res){
         res.write('File uploaded and moved!');
         res.end();
         console.log('File written!');
+
+        // Delete the file
+    fs.unlink(oldpath, function (err) {
+      if (err) throw err;
+      console.log('File deleted!');
+  });
     });
 
-    // Delete the file
-    fs.unlink(oldpath, function (err) {
-        if (err) throw err;
-        console.log('File deleted!');
-    });
+    
   });
 }
+
+
 
 app.listen(PORT, (err) => {
   console.log(`Server is listening on port ${PORT}`)
