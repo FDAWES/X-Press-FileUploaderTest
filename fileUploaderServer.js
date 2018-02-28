@@ -37,7 +37,7 @@ app.post("/upload/image", function(req, res, next) {
     console.log(files);
     if (err) {
       console.log("ERROR", err)
-      return copyFile(files[0].error.path, files[0].error.dest);
+      return copyFile(files[0].error.path, files[0].error.dest, res);
     }
     else{
       return next(err);
