@@ -35,8 +35,9 @@ app.get("/uploads/:id", (req, res) => {
 app.post("/upload/image", function(req, res, next) {
   uploader.upload("local", req.files["images"], function(err, files) {
     console.log(files);
-    if (err.errno === -18) {
-      return copyFile(err.path, err.dest);
+    if (err) {
+      console.log("ERROR", err)
+      return copyFile(files[0].error.path, files[0].error.dest);
     }
     else{
       return next(err);
