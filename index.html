@@ -1,27 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
   <title>Document</title>
+  <style>
+    img{
+      width: 200px;
+      height: 200px
+    }
+    
+    imageDiv{
+      border: 5px;
+      border-style: groove
+    }
+  </style>
 </head>
+
 <body>
-  <form id="myForm">
-    <input type="file" />
-    <button type="submit">Submit</button>
-  </form>
+  <div>
+    <h6>Express Uploader Form</h6>
+    <form data-Action="/upload/image" id="expressUploaderForm">
+      <input data-imageId="expressUploaderImage" type="file" />
+      <button type="submit">Submit</button>
+    </form>
+
+    <h6>Your express uploader image should show here</h6>
+    <div class="imageDiv">
+      <img id="expressUploaderImage" src="" />
+    </div>
+  </div>
+  <hr/>
+  <div>
+    <h6>AWS Uploader Form</h6>
+    <form data-Action="/aws-upload/image" id="awsUploadForm">
+      <input data-imageId="awsImage" type="file" />
+      <button type="submit">Submit</button>
+    </form>
+
+    <h6>Your aws upload image should show here</h6>
+    <div class="imageDiv">
+      <img id="awsImage" src="" />
+    </div>
+  </div>
+  <hr/>
+  <div>
+    <h6>Custom Uploader Form</h6>
+    <form data-Action="/custom-upload/image" id="customUploadForm">
+      <input data-imageId="customImage" type="file" />
+      <button type="submit">Submit</button>
+    </form>
+
+    <h6>Your custom upload image should show here</h6>
+    <div class="imageDiv">
+      <img id="customImage" src="" />
+    </div>
+  </div>
 </body>
 <script>
-  document.getElementById("myForm")
-  .addEventListener("submit", handleFormSubmit);
+  document.getElementById("expressUploaderForm")
+    .addEventListener("submit", handleFormSubmit);
 
-  function handleFormSubmit (event) {
-    console.log(event);
+  document.getElementById("awsUploadForm")
+    .addEventListener("submit", handleFormSubmit);
+
+  document.getElementById("customUploadForm")
+    .addEventListener("submit", handleFormSubmit);
+
+  function handleFormSubmit(event) {
+    console.log(event.target);
     event.preventDefault();
 
     let input = event.target.children[0];
+    let imageId = input.getAttribute("data-imageId");
+    let route = event.target.getAttribute("data-Action");
+
+    console.log("IMAGEID", imageId);
+    console.log("ROUTE", route);
 
     var formData = new FormData();
 
@@ -29,16 +87,28 @@
 
     const config = {
       headers: {
-          'content-type': 'multipart/form-data'
+        'content-type': 'multipart/form-data'
       }
     };
 
-    axios.post("/upload/image", formData, config)
-    .then((response) => {
-      console.log("RESPONSE: ", response);
-    }).catch(error => {
-      console.log("ERROR: ", error);
-    })
+    axios.post(route, formData, config)
+      .then((response) => {
+        console.log("RESPONSE: ", response);
+
+        var imageUrl = "";
+
+        if(route === "/upload/image"){
+          imageUrl = response.data[0].url;
+        }
+        else {
+          imageUrl = response.data;
+        }
+        
+        document.getElementById(imageId).setAttribute("src", imageUrl);
+      }).catch(error => {
+        console.log("ERROR: ", error);
+      });
   }
 </script>
+
 </html>
