@@ -20,7 +20,7 @@ function copyFile(newFile, res, next){
     const lastIndex = tempPath.lastIndexOf("/");
     const newFileName = tempPath.substring(lastIndex + 1);
     
-    const newPath = path.join(__dirname, `uploads/${newFileName}`);
+    const newPath = path.join(__dirname, `images/${newFileName}`);
     // Write the file
     fs.writeFile(newPath, data, function (err) {
         if (err) {
