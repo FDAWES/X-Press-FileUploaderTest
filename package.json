@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "createUploadFolder": "mkdir uploads",
     "test": "echo \"Error: no test specified\" && exit 1",
     "linterOn": "eslint --init",
-    "start": "node fileUploaderServer.js"
+    "start": "yarn createUploadFolder && node fileUploaderServer.js"
   },
   "author": "",
   "license": "ISC",
