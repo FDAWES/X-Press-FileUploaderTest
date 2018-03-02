@@ -20,7 +20,9 @@ function copyFile(newFile, res, next){
     const lastIndex = tempPath.lastIndexOf("/");
     const newFileName = tempPath.substring(lastIndex + 1);
     
-    const newPath = path.join(__dirname, `images/${newFileName}`);
+    const imageUrl = `images/${newFileName}`;
+    
+    const newPath = path.join(__dirname, imageUrl);
     // Write the file
     fs.writeFile(newPath, data, function (err) {
         if (err) {
@@ -29,7 +31,7 @@ function copyFile(newFile, res, next){
         }
         
         console.log('File written!');
-        res.json(`uploads/${newFileName}`);
+        res.json(imageUrl);
 
         // Delete the file
       fs.unlink(tempPath, function (err) {
