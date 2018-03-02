@@ -9,7 +9,10 @@ function uploadFile(req, res, next){
   var lastIndex = currentFile.path.lastIndexOf("/");
   var newName = currentFile.path.substring(lastIndex + 1);
 
+  //My Storage Bucket is setup as a configuration variable
+  //For this I used the .env file for the development environment
   console.log("Bucket Name", process.env.BUCKET_NAME);
+
   var data = {
     Bucket: process.env.BUCKET_NAME,
     Key: newName,

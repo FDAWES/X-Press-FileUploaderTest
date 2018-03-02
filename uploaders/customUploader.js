@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require('path');
+const uploadDir = "uploads/"
 
 function uploadFile(req, res, next){
   const newFile = req.files["images"];
@@ -20,7 +21,7 @@ function copyFile(newFile, res, next){
     const lastIndex = tempPath.lastIndexOf("/");
     const newFileName = tempPath.substring(lastIndex + 1);
     
-    const imageUrl = `uploads/${newFileName}`;
+    const imageUrl = `${uploadDir}/${newFileName}`;
     
     const newPath = path.join(__dirname, imageUrl);
     // Write the file

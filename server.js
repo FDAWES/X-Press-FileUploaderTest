@@ -10,9 +10,7 @@ const dotenv = require("dotenv").config();
 const multiparty = require("connect-multiparty"); 
 
 //EXPRESS AND AWS UPLOAD UTILITY
-const expressUploader = require("./expressUploader");
-const AWS = require("./awsUploader");
-const customUploader = require("./customUploader");
+const { AWS, CUSTOM, EXPRESS } = require("./uploaders");
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -37,12 +35,13 @@ app.get("/uploads/:id", (req, res) => {
 });
 
 //EXPRESS FILE UPLOADER ROUTE
-app.post("/upload/image", expressUploader.uploadFile);
+app.post("/upload/image", EXPRESS.uploadFile);
 
 //AWS STORAGE BUCKET UPLOAD
 app.post("/aws-upload/image", AWS.uploadFile);
 
-app.post("/custom-upload/image", customUploader.uploadFile)
+//CUSTOM FILE UPLOADER ROUTE
+app.post("/custom-upload/image", CUSTOM.uploadFile)
 
 app.listen(PORT, (err) => {
   console.log(`Server is listening on port ${PORT}`)
