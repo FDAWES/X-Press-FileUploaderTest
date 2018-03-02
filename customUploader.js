@@ -23,7 +23,10 @@ function copyFile(newFile, res, next){
     const newPath = path.join(__dirname, `uploads/${newFileName}`);
     // Write the file
     fs.writeFile(newPath, data, function (err) {
-        if (err) return next(err);
+        if (err) {
+          console.log(err);
+          return next(err);
+        }
         
         console.log('File written!');
         res.json(`uploads/${newFileName}`);
